@@ -9,7 +9,7 @@ any accounts that don't belong to you because then you are accessing information
 only use this program within the bounds of the law.
 
 
-Everything about this program is meant to be as simple as possible for YOU!
+Everything about this program is meant to be as simple as possible for you
 
 
 There are only a few things you need to do.
