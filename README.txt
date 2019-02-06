@@ -16,6 +16,7 @@ There are only a few things you need to do.
 [1] Place any databases that you have into the "PutYourDataBasesHere" folder
     - As of right now, BaseQuery can only accept files in the format where each line is either "test@example.com:password" or "password:test@example.com"
     - It doesn't matter if the line formats are mixed up within the file. For Example) The first line may be "email:password" and the second can be "password:email"
+    - Please delete the "DELETE_ME.txt" file in the ./data/ directory
     - One entry per line!! 
     - MAKE SURE THAT YOUR FILES DO NOT HAVE SPACES IN THE NAMES OF THE DATABASE FILES!
     - If you need a better visual there is an example.txt file in the folder "PutYourDataBasesHere"
