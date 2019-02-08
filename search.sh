@@ -12,8 +12,8 @@ NC='\033[0m'  # No Color
 
 if [ "${PWD##*/}" == "BaseQuery" ];then
 	# Grab everything before the @ sign
-	user_name=$(echo $1 | cut -d @ -f 1 | awk '{print tolower($0)}')
-	email=$(echo $1 | cut -d : -f 1 | awk '{print tolower($0)}')
+	user_name=$(echo "$1" | cut -d @ -f 1 | awk '{print tolower($0)}')
+	email=$(echo "$1" | cut -d : -f 1 | awk '{print tolower($0)}')
 	#  Check to make sure the user name is at least 4 and the email has a @
 	if [ ${#user_name} -ge 4 ] && [[ $email == *"@"* ]];then
 		# Grab each individual character
@@ -23,16 +23,16 @@ if [ "${PWD##*/}" == "BaseQuery" ];then
 		fourth_char=${user_name:3:1}
 		
 		#  Check the first directory
-		if [ -d ./data/$first_char ];then
+		if [ -d ./data/"$first_char" ];then
 			#  Check the second directory
-			if [ -d  ./data/$first_char/$second_char ];then
+			if [ -d  ./data/"$first_char"/"$second_char" ];then
 				#  Check the third directory
-				if [ -d ./data/$first_char/$second_char/$third_char ];then
+				if [ -d ./data/"$first_char"/"$second_char"/"$third_char" ];then
 					printf "${GREEN}Email Address: $email${NC}\n"
 					#  Check to see if the file exists
-					if [ -e ./data/$first_char/$second_char/$third_char/$fourth_char.txt ];then
+					if [ -e ./data/"$first_char"/"$second_char"/"$third_char"/"$fourth_char".txt ];then
 						#  Open the file and search for the email address then only keep the passwords, iterate through the passwords and echo then
-						cat ./data/$first_char/$second_char/$third_char/$fourth_char.txt | grep -i "$email" | cut -d : -f 2- | while read -r Password;do
+						cat ./data/"$first_char"/"$second_char"/"$third_char"/"$fourth_char".txt | grep -i "$email" | cut -d : -f 2- | while read -r Password;do
 							printf "Password: ${RED}$Password${NC}\n"
 						done
 						
@@ -47,7 +47,7 @@ if [ "${PWD##*/}" == "BaseQuery" ];then
 						#  The file does not exists
 						#  Check to make sure the directory exists and the file exists for 0UTLIERS
 						if [[ -d ./data/$first_char/$second_char/$third_char/0UTLIERS && -e ./data/$first_char/$second_char/$third_char/0UTLIERS/0utliers.txt ]];then
-							cat ./data/$first_char/$second_char/$third_char/0UTLIERS/0utliers.txt | grep -i "$email" | cut -d : -f 2- | while read -r Password;do
+							cat ./data/"$first_char"/"$second_char"/"$third_char"/0UTLIERS/0utliers.txt | grep -i "$email" | cut -d : -f 2- | while read -r Password;do
 								printf "Password: ${RED}$Password${NC}\n"
 							done	
 						fi
@@ -63,7 +63,7 @@ if [ "${PWD##*/}" == "BaseQuery" ];then
 					printf "${GREEN}Email Address: $email${NC}\n"
 					#  The third letter directory does not exists
 					if [[ -d ./data/$first_char/$second_char/0UTLIERS && -e ./data/$first_char/$second_char/0UTLIERS/0utliers.txt ]];then
-						cat ./data/$first_char/$second_char/0UTLIERS/0utliers.txt | grep -i "$email" | cut -d : -f 2- | while read -r Password;do
+						cat ./data/"$first_char"/"$second_char"/0UTLIERS/0utliers.txt | grep -i "$email" | cut -d : -f 2- | while read -r Password;do
 							printf "Password: ${RED}$Password${NC}\n"
 						done	
 					fi
@@ -79,7 +79,7 @@ if [ "${PWD##*/}" == "BaseQuery" ];then
 				printf "${GREEN}Email Address: $email${NC}\n"
 				#  The second letter directory does not exists
 				if [[ -d ./data/$first_char/0UTLIERS && -e ./data/$first_char/0UTLIERS/0utliers.txt ]];then
-					cat ./data/$first_char/0UTLIERS/0utliers.txt | grep -i "$email" | cut -d : -f 2- | while read -r Password;do
+					cat ./data/"$first_char"/0UTLIERS/0utliers.txt | grep -i "$email" | cut -d : -f 2- | while read -r Password;do
 						printf "Password: ${RED}$Password${NC}\n"
 					done	
 				fi

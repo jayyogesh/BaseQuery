@@ -8,7 +8,7 @@ import mmap
 Author Github:   https://github.com/g666gle      
 Author Twitter:  https://twitter.com/g666gle1
 Date:            1/29/2019
-Description:     This file takes in one file at a time as command line input. processes each line in the file and places the
+Description:     Takes in one file at a time as command line input. processes each line in the file and places the
                  information into the correct subdirectory of the data folder.
 Usage:           python3 pysort.py file.txt
 Version:	     1.0.0
@@ -20,6 +20,13 @@ args = sys.argv
 # TODO fix bug where spaces in import files 
 # TODO make another log file for usage
 # TODO make an option for counting the number of files
+# TODO Add zstd to compress the files once all of the files are imported
+# TODO Add support for SQL vbull CSV Json
+
+
+# FIXED
+#           - Bug where password:email files were being imputed as email:password
+#           - in run.sh fixed and added SimplyEmail as an option for harvesting email addresses
 
 
 def check_duplicate(full_file_path, line):
@@ -53,7 +60,9 @@ def place_data(line, path):
     :param path: full path to file
     :return: Either a 1 or a 0 depending on if a line has been written or not
     """
-    emailPaswd = line.strip().split(':', 2)
+    if line[0] == ":":
+        line = line[1:]
+    emailPaswd = line.split(':', 2)
 
     #  Checks to see if the users format is "Password:Username" instead of "Username:Password"
     if len(emailPaswd) >= 2 and '@' in emailPaswd[1] and '.' in emailPaswd[1]:
@@ -98,13 +107,27 @@ def place_data(line, path):
                         os.makedirs(path + "/data/0UTLIERS")
                         #  Don't need to check for duplicates because its a new file
                         with open(path + "/data/0UTLIERS/0utliers.txt", 'a') as fp:
-                            fp.write(line.strip() + "\n")
+                            length = len(emailPaswd)
+                            #  Iterate through each index of the list and write it to the file
+                            for index in range(length):
+                                if index != length - 1:
+                                    fp.write(emailPaswd[index] + ":")
+                                else:  # Don't add a ':' at the end of the line
+                                    fp.write(emailPaswd[index])
+                            fp.write("\n")
                         return 1
                     else:  # If the outlier dir already exists append the line to the file
                         if check_duplicate(path + "/data/0UTLIERS/0utliers.txt", line):
                             # Checks to see if there are duplicates already in the file, returns true if there isn't
                             with open(path + "/data/0UTLIERS/0utliers.txt", 'a') as fp:
-                                fp.write(line.strip() + "\n")
+                                length = len(emailPaswd)
+                                #  Iterate through each index of the list and write it to the file
+                                for index in range(length):
+                                    if index != length - 1:
+                                        fp.write(emailPaswd[index] + ":")
+                                    else:  # Don't add a ':' at the end of the line
+                                        fp.write(emailPaswd[index])
+                                fp.write("\n")
                             return 1
                     return 0
             else:  # The directory already exists
@@ -113,12 +136,26 @@ def place_data(line, path):
                     if not os.path.isdir(path + "/data/0UTLIERS"):
                         os.makedirs("mkdir " + path + "/data/0UTLIERS")
                         with open(path + "/data/0UTLIERS/0utliers.txt", 'a') as fp:
-                            fp.write(line.strip() + "\n")
+                            length = len(emailPaswd)
+                            #  Iterate through each index of the list and write it to the file
+                            for index in range(length):
+                                if index != length - 1:
+                                    fp.write(emailPaswd[index] + ":")
+                                else:  # Don't add a ':' at the end of the line
+                                    fp.write(emailPaswd[index])
+                            fp.write("\n")
                         return 1
                     else:  # If the outlier dir already exists append the line to the file
                         if check_duplicate(path + "/data/0UTLIERS/0utliers.txt", line):
                             with open(path + "/data/0UTLIERS/0utliers.txt", 'a') as fp:
-                                fp.write(line.strip() + "\n")
+                                length = len(emailPaswd)
+                                #  Iterate through each index of the list and write it to the file
+                                for index in range(length):
+                                    if index != length - 1:
+                                        fp.write(emailPaswd[index] + ":")
+                                    else:  # Don't add a ':' at the end of the line
+                                        fp.write(emailPaswd[index])
+                                fp.write("\n")
                             return 1
                     return 0
 
@@ -133,13 +170,27 @@ def place_data(line, path):
                     if not os.path.isdir(path + "/data/" + first_letter + "/0UTLIERS"):
                         os.makedirs(path + "/data/" + first_letter + "/0UTLIERS")
                         with open(path + "/data/" + first_letter + "/0UTLIERS/0utliers.txt", 'a') as fp:
-                            fp.write(line.strip() + "\n")
+                            length = len(emailPaswd)
+                            #  Iterate through each index of the list and write it to the file
+                            for index in range(length):
+                                if index != length - 1:
+                                    fp.write(emailPaswd[index] + ":")
+                                else:  # Don't add a ':' at the end of the line
+                                    fp.write(emailPaswd[index])
+                            fp.write("\n")
                         return 1
                     else:
                         #  Check for duplicates
                         if check_duplicate(path + "/data/" + first_letter + "/0UTLIERS/0utliers.txt", line):
                             with open(path + "/data/" + first_letter + "/0UTLIERS/0utliers.txt", 'a') as fp:
-                                fp.write(line.strip() + "\n")
+                                length = len(emailPaswd)
+                                #  Iterate through each index of the list and write it to the file
+                                for index in range(length):
+                                    if index != length - 1:
+                                        fp.write(emailPaswd[index] + ":")
+                                    else:  # Don't add a ':' at the end of the line
+                                        fp.write(emailPaswd[index])
+                                fp.write("\n")
                             return 1
                     return 0
             else:  # The directory already exists
@@ -148,12 +199,26 @@ def place_data(line, path):
                     if not os.path.isdir(path + "/data/" + first_letter + "/0UTLIERS"):
                         os.makedirs(path + "/data/" + first_letter + "/0UTLIERS")
                         with open(path + "/data/" + first_letter + "/0UTLIERS/0utliers.txt", 'a') as fp:
-                            fp.write(line.strip() + "\n")
+                            length = len(emailPaswd)
+                            #  Iterate through each index of the list and write it to the file
+                            for index in range(length):
+                                if index != length - 1:
+                                    fp.write(emailPaswd[index] + ":")
+                                else:  # Don't add a ':' at the end of the line
+                                    fp.write(emailPaswd[index])
+                            fp.write("\n")
                         return 1
                     else:  # If the outlier dir already exists append the line to the file
                         if check_duplicate(path + "/data/" + first_letter + "/0UTLIERS/0utliers.txt", line):
                             with open(path + "/data/" + first_letter + "/0UTLIERS/0utliers.txt", 'a') as fp:
-                                fp.write(line.strip() + "\n")
+                                length = len(emailPaswd)
+                                #  Iterate through each index of the list and write it to the file
+                                for index in range(length):
+                                    if index != length - 1:
+                                        fp.write(emailPaswd[index] + ":")
+                                    else:  # Don't add a ':' at the end of the line
+                                        fp.write(emailPaswd[index])
+                                fp.write("\n")
                             return 1
                     return 0
 
@@ -167,12 +232,26 @@ def place_data(line, path):
                     if not os.path.isdir(path + "/data/" + first_letter + "/" + second_letter + "/0UTLIERS"):
                         os.makedirs(path + "/data/" + first_letter + "/" + second_letter + "/0UTLIERS")
                         with open(path + "/data/" + first_letter + "/" + second_letter + "/0UTLIERS/0utliers.txt", 'a') as fp:
-                            fp.write(line.strip() + "\n")
+                            length = len(emailPaswd)
+                            #  Iterate through each index of the list and write it to the file
+                            for index in range(length):
+                                if index != length - 1:
+                                    fp.write(emailPaswd[index] + ":")
+                                else:  # Don't add a ':' at the end of the line
+                                    fp.write(emailPaswd[index])
+                            fp.write("\n")
                         return 1
                     else:  # If the outlier dir already exists append the line to the file
                         if check_duplicate(path + "/data/" + first_letter + "/" + second_letter + "/0UTLIERS/0utliers.txt", line):
                             with open(path + "/data/" + first_letter + "/" + second_letter + "/0UTLIERS/0utliers.txt", 'a') as fp:
-                                fp.write(line.strip() + "\n")
+                                length = len(emailPaswd)
+                                #  Iterate through each index of the list and write it to the file
+                                for index in range(length):
+                                    if index != length - 1:
+                                        fp.write(emailPaswd[index] + ":")
+                                    else:  # Don't add a ':' at the end of the line
+                                        fp.write(emailPaswd[index])
+                                fp.write("\n")
                             return 1
                     return 0
             else:  # The directory already exists
@@ -181,12 +260,26 @@ def place_data(line, path):
                     if not os.path.isdir(path + "/data/" + first_letter + "/" + second_letter + "/0UTLIERS"):
                         os.makedirs(path + "/data/" + first_letter + "/" + second_letter + "/0UTLIERS")
                         with open(path + "/data/" + first_letter + "/" + second_letter + "/0UTLIERS/0utliers.txt", 'a') as fp:
-                            fp.write(line.strip() + "\n")
+                            length = len(emailPaswd)
+                            #  Iterate through each index of the list and write it to the file
+                            for index in range(length):
+                                if index != length - 1:
+                                    fp.write(emailPaswd[index] + ":")
+                                else:  # Don't add a ':' at the end of the line
+                                    fp.write(emailPaswd[index])
+                            fp.write("\n")
                         return 1
                     else:  # If the outlier dir already exists append the line to the file
                         if check_duplicate(path + "/data/" + first_letter + "/" + second_letter + "/0UTLIERS/0utliers.txt", line):
                             with open(path + "/data/" + first_letter + "/" + second_letter + "/0UTLIERS/0utliers.txt", 'a') as fp:
-                                fp.write(line.strip() + "\n")
+                                length = len(emailPaswd)
+                                #  Iterate through each index of the list and write it to the file
+                                for index in range(length):
+                                    if index != length - 1:
+                                        fp.write(emailPaswd[index] + ":")
+                                    else:  # Don't add a ':' at the end of the line
+                                        fp.write(emailPaswd[index])
+                                fp.write("\n")
                             return 1
                     return 0
 
@@ -195,16 +288,29 @@ def place_data(line, path):
                 if folder_depth == 4:  # The file doesn't exist in the third dir but there is 4 valid chars
                     #  Make the file
                     with open(path + "/data/" + first_letter + "/" + second_letter + "/" + third_letter + "/" + fourth_letter + ".txt", 'a') as output_file:
-                        if check_duplicate(path + "/data/" + first_letter + "/" + second_letter + "/" + third_letter + "/" + fourth_letter + ".txt", line.strip()):
-                            output_file.write(line.strip() + "\n")
-                            return 1
+                        length = len(emailPaswd)
+                        #  Iterate through each index of the list and write it to the file
+                        for index in range(length):
+                            if index != length-1:
+                                output_file.write(emailPaswd[index] + ":")
+                            else:  # Don't add a ':' at the end of the line
+                                output_file.write(emailPaswd[index])
+                        output_file.write("\n")
+                        return 1
                 elif folder_depth == 3:  # Check to see if the fourth letter is an outlier EX) exa!mple@example.com
                     if not os.path.isdir(path + "/data/" + first_letter + "/" + second_letter + "/" + third_letter + "/0UTLIERS"):
                         os.makedirs(path + "/data/" + first_letter + "/" + second_letter + "/" + third_letter + "/0UTLIERS")
                     #  Make the 0UTLIERS file
                     with open(path + "/data/" + first_letter + "/" + second_letter + "/" + third_letter + "/0UTLIERS/0utliers.txt", 'a') as output_file:
-                        if check_duplicate(path + "/data/" + first_letter + "/" + second_letter + "/" + third_letter + "/0UTLIERS/0utliers.txt", line.strip()):
-                            output_file.write(line.strip() + "\n")
+                        if check_duplicate(path + "/data/" + first_letter + "/" + second_letter + "/" + third_letter + "/0UTLIERS/0utliers.txt", line):
+                            length = len(emailPaswd)
+                            #  Iterate through each index of the list and write it to the file
+                            for index in range(length):
+                                if index != length - 1:
+                                    output_file.write(emailPaswd[index] + ":")
+                                else:  # Dont add a ':' at the end of the line
+                                    output_file.write(emailPaswd[index])
+                            output_file.write("\n")
                             return 1
                 return 0
             else:  # The file exists
@@ -212,7 +318,14 @@ def place_data(line, path):
                     if check_duplicate(path + "/data/" + first_letter + "/" + second_letter + "/" + third_letter + "/" + fourth_letter + ".txt", line):
                         #  Append the file
                         with open(path + "/data/" + first_letter + "/" + second_letter + "/" + third_letter + "/" + fourth_letter + ".txt", 'a') as output_file:
-                            output_file.write(line.strip() + "\n")
+                            length = len(emailPaswd)
+                            #  Iterate through each index of the list and write it to the file
+                            for index in range(length):
+                                if index != length - 1:
+                                    output_file.write(emailPaswd[index] + ":")
+                                else:  # Dont add a ':' at the end of the line
+                                    output_file.write(emailPaswd[index])
+                            output_file.write("\n")
                         return 1
                     return 0
                 elif folder_depth == 3:  # The file does exist in the third dir but there is only 3 valid chars
@@ -223,7 +336,14 @@ def place_data(line, path):
                     if check_duplicate(path + "/data/" + first_letter + "/" + second_letter + "/" + third_letter + "/0UTLIERS/0utliers.txt", line):
                         #  Append the 0UTLIERS file
                         with open(path + "/data/" + first_letter + "/" + second_letter + "/" + third_letter + "/0UTLIERS/0utliers.txt", 'a') as output_file:
-                            output_file.write(line.strip() + "\n")
+                            length = len(emailPaswd)
+                            #  Iterate through each index of the list and write it to the file
+                            for index in range(length):
+                                if index != length - 1:
+                                    output_file.write(emailPaswd[index] + ":")
+                                else:  # Dont add a ':' at the end of the line
+                                    output_file.write(emailPaswd[index])
+                            output_file.write("\n")
                         return 1
                     return 0
 
@@ -232,14 +352,28 @@ def place_data(line, path):
             if not os.path.isdir(path + "/data/NOTVALID"):
                 os.makedirs(path + "/data/NOTVALID/")
                 with open(path + "/data/NOTVALID/FAILED_TEST.txt", 'a') as fp:
-                    fp.write(line.strip() + "\n")
+                    length = len(emailPaswd)
+                    #  Iterate through each index of the list and write it to the file
+                    for index in range(length):
+                        if index != length - 1:
+                            fp.write(emailPaswd[index] + ":")
+                        else:  # Don't add a ':' at the end of the line
+                            fp.write(emailPaswd[index])
+                    fp.write("\n")
                 return 1
             else:  # The directory already exists
                 if line != "":
-                    if check_duplicate(path + "/data/NOTVALID/FAILED_TEST.txt", line.strip()):
+                    if check_duplicate(path + "/data/NOTVALID/FAILED_TEST.txt", line):
                         #  Open the file; check if it's a duplicate and write to the file
                         with open(path + "/data/NOTVALID/FAILED_TEST.txt", 'a') as fp:
-                            fp.write(line.strip() + "\n")
+                            length = len(emailPaswd)
+                            #  Iterate through each index of the list and write it to the file
+                            for index in range(length):
+                                if index != length - 1:
+                                    fp.write(emailPaswd[index] + ":")
+                                else:  # Don't add a ':' at the end of the line
+                                    fp.write(emailPaswd[index])
+                            fp.write("\n")
                         return 1
             return 0
     except OSError:
