@@ -41,7 +41,7 @@ cd BaseQuery
 ```
 Python Version 3.6+
 Bash
-mmap (sudo pip install mmap)
+mmap (sudo pip3 install mmap)
 ```
 
 
@@ -66,6 +66,6 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ### DISCLAIMER:
 
-**READ UP ON YOUR LOCAL LAWS FIRST BEFORE USING THIS PROGRAM.**
+* READ UP ON YOUR LOCAL LAWS FIRST BEFORE USING THIS PROGRAM.
 
 
