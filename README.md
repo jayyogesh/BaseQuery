@@ -57,7 +57,7 @@ GNU bash, version 4.4.19(1)-release (x86_64-pc-linux-gnu)
 
 ## Authors
 
-* **G666gle** - *All work* - [Github](https://github.com/G666gle) [Twitter](https://twitter.com/g666gle1)
+* **G666gle** - *All work* - [(Github)](https://github.com/G666gle) [(Twitter)](https://twitter.com/g666gle1)
 
 
 ## License
