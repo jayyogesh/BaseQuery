@@ -40,7 +40,7 @@ cd BaseQuery
 
 ```
 Python Version 3.6+
-Bash
+Bash 4.0+
 mmap (sudo pip3 install mmap)
 ```
 
